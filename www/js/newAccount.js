@@ -75,6 +75,7 @@ function dispLogin(message = false){
     //button
     let button = document.createElement("button");
     let text = document.createTextNode("Enter");
+    button.setAttribute("id", "enter");
     button.appendChild(text);
     workspace.append(button);
     //another button
@@ -88,5 +89,39 @@ function dispLogin(message = false){
         let h1 = document.createElement("h1");
         h1.appendChild(document.createTextNode(message));
         workspace.append(h1);
+    }
+}
+
+function checkLogin() {
+    console.log("Entering checkLogin");
+    let workspace = document.getElementById("error");
+    workspace.innerHTML = "";
+    let h2 = document.createElement("h1");
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+    let users = [];
+    let username_found = false;
+    let password_correct = false;
+    if(localStorage.getItem("users")){
+        console.log("There were previously registered users");
+        users = JSON.parse(window.localStorage.getItem("users"));
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].username == user) {
+                username_found = true;
+                console.log("username is correct");
+                if (users[i].password == pass) {
+                    console.log("password is also correct, login is successful");
+                    password_correct = true;
+                }
+            }
+        }
+    } else {
+        console.log("There were no previously registered users.");
+    }
+    
+    let correct_login = username_found && password_correct;
+    if(!correct_login) {
+        h2.appendChild(document.createTextNode("Username or password is incorrect."));
+        workspace.append(h2);
     }
 }
