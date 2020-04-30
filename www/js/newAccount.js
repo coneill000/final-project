@@ -104,6 +104,7 @@ function checkLogin() {
     let users = [];
     let username_found = false;
     let password_correct = false;
+    let userId = 0;
     if(localStorage.getItem("users")){
         console.log("There were previously registered users");
         users = JSON.parse(window.localStorage.getItem("users"));
@@ -114,6 +115,7 @@ function checkLogin() {
                 if (users[i].password == pass) {
                     console.log("password is also correct, login is successful");
                     password_correct = true;
+                    userId = i;
                 }
             }
         }
@@ -126,11 +128,11 @@ function checkLogin() {
         h2.appendChild(document.createTextNode("Username or password is incorrect."));
         workspace.append(h2);
     } else {
-        initializeApp();
+        initializeApp(userId);
     }
 }
 
-function initializeApp() {
+function initializeApp(userId) {
     let workspace = document.getElementById("main");
     document.getElementById("content").innerHTML = "";
     
@@ -159,6 +161,6 @@ function initializeApp() {
     
     workspace.append(header);
     
-    document.getElementById("search").onclick = loadSearch;
-    loadSearch();
+    document.getElementById("search").onclick = function() {loadSearch(userId);};
+    loadSearch(userId);
 }
