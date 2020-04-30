@@ -42,6 +42,8 @@ function createNewAccount(){
         console.log("There were no previously registered users.");
     }
     
+    //check to make sure no duplicate usernames
+    
     users.push(newUser);
     console.log(users);
     window.localStorage.setItem("users", JSON.stringify(users));
@@ -129,8 +131,8 @@ function checkLogin() {
 }
 
 function initializeApp() {
-    let workspace = document.getElementById("content");
-    workspace.innerHTML = "";
+    let workspace = document.getElementById("main");
+    document.getElementById("content").innerHTML = "";
     
     let header = document.createElement("div");
     header.classList.add("navbar");
@@ -156,4 +158,7 @@ function initializeApp() {
     header.appendChild(profileButton);
     
     workspace.append(header);
+    
+    document.getElementById("search").onclick = loadSearch;
+    loadSearch();
 }
