@@ -162,5 +162,6 @@ function initializeApp(userId) {
     workspace.append(header);
     
     document.getElementById("search").onclick = function() {loadSearch(userId);};
+    document.getElementById("favorite").onclick = function() {loadFavorites(userId);};
     loadSearch(userId);
 }

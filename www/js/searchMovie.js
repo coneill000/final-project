@@ -4,14 +4,40 @@ let loadSearch = function (userId) {
     workspace.innerHTML = "";
     document.getElementById("error").innerHTML = "";
     
+    let button = document.getElementById("search");
+    button.classList.add("active");
+    
     let inputTitle = document.createElement("input");
     inputTitle.setAttribute("type", "text");
     inputTitle.setAttribute("placeholder", "Title");
     inputTitle.setAttribute("id", "title");
     workspace.append(inputTitle);
     
-    let button = document.getElementById("search");
-    button.classList.add("active");
+    let inputYear = document.createElement("input");
+    inputYear.setAttribute("type", "text");
+    inputYear.setAttribute("placeholder", "Year");
+    inputYear.setAttribute("id", "year");
+    workspace.append(inputYear);
+    
+    let selectType = document.createElement("select");
+    selectType.setAttribute("id", "type");
+    let anyOption = document.createElement("option");
+    anyOption.setAttribute("value", "");
+    anyOption.appendChild(document.createTextNode("Type"));
+    let movieOption = document.createElement("option");
+    movieOption.setAttribute("value", "movie");
+    movieOption.appendChild(document.createTextNode("Movie"));
+    let seriesOption = document.createElement("option");
+    seriesOption.setAttribute("value", "series");
+    seriesOption.appendChild(document.createTextNode("Series"));
+    let episodeOption = document.createElement("option");
+    episodeOption.setAttribute("value", "episode");
+    episodeOption.appendChild(document.createTextNode("Episode"));
+    selectType.appendChild(anyOption);
+    selectType.appendChild(movieOption);
+    selectType.appendChild(seriesOption);
+    selectType.appendChild(episodeOption);
+    workspace.append(selectType);
     
     let searchButton = document.createElement("button");
     let text = document.createTextNode("Search");
@@ -24,6 +50,8 @@ let loadSearch = function (userId) {
 
 function getSearchInfo(userId) {
     title = document.getElementById("title").value;
+    year = document.getElementById("year").value;
+    type = document.getElementById("type").value;
     console.log("Getting search info");
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
@@ -34,7 +62,7 @@ function getSearchInfo(userId) {
         }
     };
     
-    let url = `https://www.omdbapi.com/?s=${title}&apikey=3f5099b1`;
+    let url = `https://www.omdbapi.com/?s=${title}&y=${year}&type=${type}&apikey=3f5099b1`;
     
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
