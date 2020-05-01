@@ -4,8 +4,18 @@ let loadSearch = function (userId) {
     workspace.innerHTML = "";
     document.getElementById("error").innerHTML = "";
     
-    let button = document.getElementById("search");
-    button.classList.add("active");
+    let searchButton = document.getElementById("search");
+    let favoriteButton = document.getElementById("favorite");
+    let profileButton = document.getElementById("profile");
+    searchButton.classList.add("active");
+    
+    if(favoriteButton.classList.contains("active")) {
+        favoriteButton.classList.remove("active");   
+    }
+    
+    if(profileButton.classList.contains("active")) {
+        profileButton.classList.remove("active");   
+    }
     
     let inputTitle = document.createElement("input");
     inputTitle.setAttribute("type", "text");
@@ -39,11 +49,11 @@ let loadSearch = function (userId) {
     selectType.appendChild(episodeOption);
     workspace.append(selectType);
     
-    let searchButton = document.createElement("button");
+    let submitButton = document.createElement("button");
     let text = document.createTextNode("Search");
-    searchButton.setAttribute("id", "search-movie");
-    searchButton.appendChild(text);
-    workspace.append(searchButton);
+    submitButton.setAttribute("id", "search-movie");
+    submitButton.appendChild(text);
+    workspace.append(submitButton);
     
     document.getElementById("search-movie").onclick = function () {getSearchInfo(userId);};
 }
