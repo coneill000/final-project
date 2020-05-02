@@ -2,7 +2,11 @@ let dispNewAccount = function(){
     console.log("entering display new account");
     //sets up workspace
     let workspace = document.getElementById("content");
+    let error = document.getElementById("error");
+    let bottom = document.getElementById("bottom");
     workspace.innerHTML = "";
+    error.innerHTML = "";
+    bottom.innerHTML = "";
     
     //username input
     let user = document.createElement("input");
@@ -59,8 +63,18 @@ function dispLogin(message = false){
     console.log("entering display login");
     //sets up workspace
     let workspace = document.getElementById("content");
+    let error = document.getElementById("error");
+    let bottom = document.getElementById("bottom");
     workspace.innerHTML = "";
+    error.innerHTML = "";
+    bottom.innerHTML = "";
     
+    //header
+    if(message){
+        let h1 = document.createElement("h1");
+        h1.appendChild(document.createTextNode(message));
+        error.append(h1);
+    }
     
     //username input
     let user = document.createElement("input");
@@ -86,12 +100,9 @@ function dispLogin(message = false){
     button2.appendChild(text2);
     button2.setAttribute("id", "new-account");
     workspace.append(button2);
-    //header
-    if(message){
-        let h1 = document.createElement("h1");
-        h1.appendChild(document.createTextNode(message));
-        workspace.append(h1);
-    }
+    
+    document.getElementById("enter").onclick = checkLogin;
+    document.getElementById("new-account").onclick = dispNewAccount;
 }
 
 function checkLogin() {
@@ -133,7 +144,7 @@ function checkLogin() {
 }
 
 function initializeApp(userId) {
-    let workspace = document.getElementById("main");
+    let workspace = document.getElementById("bottom");
     document.getElementById("content").innerHTML = "";
     
     let header = document.createElement("div");
@@ -163,5 +174,6 @@ function initializeApp(userId) {
     
     document.getElementById("search").onclick = function() {loadSearch(userId);};
     document.getElementById("favorite").onclick = function() {loadFavorites(userId);};
+    document.getElementById("profile").onclick = function() {loadProfile(userId);};
     loadSearch(userId);
 }
