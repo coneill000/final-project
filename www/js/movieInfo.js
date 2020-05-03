@@ -105,15 +105,15 @@ function dispMovieInfo(fullMovieInfo, userId) {
     
     let director = document.createElement("p");
     director.innerHTML = `Directed by: ${fullMovieInfo.Director}`;
-    let writor = document.createElement("p");
-    writor.innerHTML = `Written by: ${fullMovieInfo.Writer}`;
+    let writer = document.createElement("p");
+    writer.innerHTML = `Written by: ${fullMovieInfo.Writer}`;
     let actor = document.createElement("p");
     actor.innerHTML = `Actors: ${fullMovieInfo.Actors}`;
     let awards = document.createElement("p");
     awards.innerHTML = `Awards: ${fullMovieInfo.Awards}`;
     
     workspace.append(director);
-    workspace.append(writor);
+    workspace.append(writer);
     workspace.append(actor);
     workspace.append(awards);
     
