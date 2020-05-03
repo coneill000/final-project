@@ -55,30 +55,32 @@ let loadSearch = function (userId) {
     submitButton.appendChild(text);
     workspace.append(submitButton);
     
-    document.getElementById("search-movie").onclick = function () {getSearchInfo(userId);};
+    document.getElementById("search-movie").onclick = function () {
+        let title = document.getElementById("title").value;
+        let year = document.getElementById("year").value;
+        let type = document.getElementById("type").value;
+        getSearchInfo(userId, 1, title, year, type);
+    };
 }
 
-function getSearchInfo(userId) {
-    title = document.getElementById("title").value;
-    year = document.getElementById("year").value;
-    type = document.getElementById("type").value;
+function getSearchInfo(userId, pageNum, title, year, type) {
     console.log("Getting search info");
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let movieInfo = JSON.parse(this.responseText);
             console.log(movieInfo);
-            displaySearchInfo(movieInfo, userId);
+            displaySearchInfo(movieInfo, userId, pageNum, title, year, type);
         }
     };
     
-    let url = `https://www.omdbapi.com/?s=${title}&y=${year}&type=${type}&apikey=3f5099b1`;
+    let url = `https://www.omdbapi.com/?s=${title}&y=${year}&type=${type}&page=${pageNum}&apikey=3f5099b1`;
     
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
 
-function displaySearchInfo(movieInfo, userId) {
+function displaySearchInfo(movieInfo, userId, pageNum, title, year, type) {
     console.log("Entering the displaySearchInfo function");
     let workspace = document.getElementById("content");
     workspace.innerHTML = "";
@@ -125,5 +127,21 @@ function displaySearchInfo(movieInfo, userId) {
             listGroup.appendChild(movie);
         }
         workspace.append(listGroup);
+        let moreResults = document.createElement("button");
+        let goBack = document.createElement("button");
+        let maxPage = Math.ceil(parseInt(movieInfo.totalResults) / 10);
+        console.log(maxPage);
+        if (pageNum > 1) {
+            goBack.appendChild(document.createTextNode("Display previous results"));
+            goBack.onclick = function() {getSearchInfo(userId, pageNum-1, title, year, type);};
+            workspace.append(goBack);
+        }
+        if (pageNum < maxPage) {
+            moreResults.appendChild(document.createTextNode("Load more results"));
+            moreResults.onclick = function() {getSearchInfo(userId, pageNum+1, title, year, type);};
+            workspace.append(moreResults);
+        }
+        
+        
     }
 }
