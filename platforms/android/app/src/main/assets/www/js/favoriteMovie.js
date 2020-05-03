@@ -71,7 +71,7 @@ function dispFavorites(userId) {
                 }
             };
 
-            let url = `https://www.omdbapi.com/?i=${movieId}&apikey=3f5099b1`;
+            let url = `http://www.omdbapi.com/?i=${movieId}&apikey=3f5099b1`;
 
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
