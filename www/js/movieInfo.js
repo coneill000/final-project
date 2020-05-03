@@ -64,7 +64,7 @@ function dispMovieInfo(fullMovieInfo, userId) {
     console.log("Entering dispMovieInfo");
     let workspace = document.getElementById("content");
     let title = document.createElement("h1");
-    title.innerHTML = fullMovieInfo.Title;
+    title.innerHTML = `${fullMovieInfo.Title} (${fullMovieInfo.Year})`;
     let users = JSON.parse(window.localStorage.getItem("users"));
     let favorites = [];
     
@@ -88,4 +88,33 @@ function dispMovieInfo(fullMovieInfo, userId) {
     workspace.append(title);
     workspace.append(favoriteIcon);
     workspace.append(img);
+    
+    let rating = fullMovieInfo.Rated;
+    let runtime = fullMovieInfo.Runtime;
+    let genre = fullMovieInfo.Genre;
+    let info = document.createElement("p");
+    info.innerHTML = `${rating} | ${runtime} | ${genre}`;
+    workspace.append(info);
+    
+    let plot = document.createElement("p");
+    plot.innerHTML = `${fullMovieInfo.Plot}`;
+    workspace.append(plot);
+    
+    let hr = document.createElement("hr");
+    workspace.append(hr);
+    
+    let director = document.createElement("p");
+    director.innerHTML = `Directed by: ${fullMovieInfo.Director}`;
+    let writer = document.createElement("p");
+    writer.innerHTML = `Written by: ${fullMovieInfo.Writer}`;
+    let actor = document.createElement("p");
+    actor.innerHTML = `Actors: ${fullMovieInfo.Actors}`;
+    let awards = document.createElement("p");
+    awards.innerHTML = `Awards: ${fullMovieInfo.Awards}`;
+    
+    workspace.append(director);
+    workspace.append(writer);
+    workspace.append(actor);
+    workspace.append(awards);
+    
 }
