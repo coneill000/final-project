@@ -109,7 +109,7 @@ function dispLogin(message = false){
     bottom.innerHTML = "";
     top.innerHTML = "";
     
-    
+    top.classList = "top-styling";
     let h1 = document.createElement("h1");
     h1.appendChild(document.createTextNode("MyMovies"));
     h1.classList = "text-center top-message";
@@ -215,23 +215,25 @@ function initializeApp(userId) {
     content.innerHTML = "";
     top.innerHTML = "";
     
+    top.classList.remove("top-styling");
+    
     let header = document.createElement("div");
-    header.classList.add("navbar");
+    header.classList = "navbar btn-group";
     header.setAttribute("id", "header");
     
     let searchButton = document.createElement("button");
     searchButton.setAttribute("id", "search");
-    searchButton.classList.add("tablinks");
+    searchButton.classList = "navlinks btn";
     searchButton.appendChild(document.createTextNode("Search"));
                             
     let favoriteButton = document.createElement("button");
     favoriteButton.setAttribute("id", "favorite");
-    favoriteButton.classList.add("tablinks");
+    favoriteButton.classList = "navlinks btn";
     favoriteButton.appendChild(document.createTextNode("Favorites")); 
                                
     let profileButton = document.createElement("button");
     profileButton.setAttribute("id", "profile");
-    profileButton.classList.add("tablinks");
+    profileButton.classList = "navlinks btn";
     profileButton.appendChild(document.createTextNode("Profile"));
                               
     header.appendChild(searchButton);

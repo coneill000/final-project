@@ -17,20 +17,30 @@ let loadSearch = function (userId) {
         profileButton.classList.remove("active");   
     }
     
+    let inputGroup1 = document.createElement("div");
+    inputGroup1.classList = "input-group";
+    let inputGroup2 = document.createElement("div");
+    inputGroup2.classList = "input-group";
+    let inputGroup3 = document.createElement("div");
+    inputGroup3.classList = "input-group";
+    
     let inputTitle = document.createElement("input");
     inputTitle.setAttribute("type", "text");
     inputTitle.setAttribute("placeholder", "Title");
     inputTitle.setAttribute("id", "title");
-    workspace.append(inputTitle);
+    inputTitle.classList = "form-control search-input";
+    inputGroup1.append(inputTitle);
     
     let inputYear = document.createElement("input");
     inputYear.setAttribute("type", "text");
     inputYear.setAttribute("placeholder", "Year");
     inputYear.setAttribute("id", "year");
-    workspace.append(inputYear);
+    inputYear.classList = "form-control search-input";
+    inputGroup2.append(inputYear);
     
     let selectType = document.createElement("select");
     selectType.setAttribute("id", "type");
+    selectType.classList = "form-control search-input";
     let anyOption = document.createElement("option");
     anyOption.setAttribute("value", "");
     anyOption.appendChild(document.createTextNode("Type"));
@@ -47,12 +57,17 @@ let loadSearch = function (userId) {
     selectType.appendChild(movieOption);
     selectType.appendChild(seriesOption);
     selectType.appendChild(episodeOption);
-    workspace.append(selectType);
+    inputGroup3.append(selectType);
+    
+    workspace.append(inputGroup1);
+    workspace.append(inputGroup2);
+    workspace.append(inputGroup3);
     
     let submitButton = document.createElement("button");
-    let text = document.createTextNode("Search");
     submitButton.setAttribute("id", "search-movie");
-    submitButton.appendChild(text);
+    submitButton.appendChild(document.createTextNode("Search"));
+    submitButton.classList = "btn btn-primary btn-block search-input";
+    
     workspace.append(submitButton);
     
     document.getElementById("search-movie").onclick = function () {
@@ -61,6 +76,7 @@ let loadSearch = function (userId) {
         let type = document.getElementById("type").value;
         getSearchInfo(userId, 1, title, year, type);
     };
+    
 }
 
 function getSearchInfo(userId, pageNum, title, year, type) {
@@ -129,21 +145,26 @@ function displaySearchInfo(movieInfo, userId, pageNum, title, year, type) {
             listGroup.appendChild(movie);
         }
         workspace.append(listGroup);
+        
+        let buttonGroup = document.createElement("div");
+        buttonGroup.classList = "button-group";
         let moreResults = document.createElement("button");
+        moreResults.classList = "btn btn-primary";
         let goBack = document.createElement("button");
+        goBack.classList = "btn btn-primary";
         let maxPage = Math.ceil(parseInt(movieInfo.totalResults) / 10);
         console.log(maxPage);
         if (pageNum > 1) {
             goBack.appendChild(document.createTextNode("Display previous results"));
             goBack.onclick = function() {getSearchInfo(userId, pageNum-1, title, year, type);};
-            workspace.append(goBack);
+            buttonGroup.append(goBack);
         }
         if (pageNum < maxPage) {
             moreResults.appendChild(document.createTextNode("Load more results"));
             moreResults.onclick = function() {getSearchInfo(userId, pageNum+1, title, year, type);};
-            workspace.append(moreResults);
+            buttonGroup.append(moreResults);
         }
-        
+        workspace.append(buttonGroup);
         
     }
 }
