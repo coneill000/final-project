@@ -66,10 +66,13 @@ function dispMovieInfo(fullMovieInfo, userId) {
     console.log("Entering dispMovieInfo");
     let workspace = document.getElementById("content");
     let title = document.createElement("h1");
+    title.classList = "text-center";
     title.innerHTML = `${fullMovieInfo.Title} (${fullMovieInfo.Year})`;
     let users = JSON.parse(window.localStorage.getItem("users"));
     let favorites = [];
     
+    let favoriteDiv = document.createElement("div");
+    favoriteDiv.classList = "d-flex justify-content-center";
     let favoriteIcon = document.createElement("img");
     favoriteIcon.src = "img/heart_outline.png";
     favoriteIcon.classList.add("favorite-icon");
@@ -88,17 +91,24 @@ function dispMovieInfo(fullMovieInfo, userId) {
         }
     }
     
+    let imgDiv = document.createElement("div");
+    imgDiv.classList = "d-flex justify-content-center";
     let img = document.createElement("img");
     img.src = fullMovieInfo.Poster;
+    img.classList = "img-poster";
+    imgDiv.append(img);
+    
     workspace.append(title);
-    workspace.append(favoriteIcon);
-    workspace.append(img);
+    favoriteDiv.append(favoriteIcon);
+    workspace.append(favoriteDiv);
+    workspace.append(imgDiv);
     
     let rating = fullMovieInfo.Rated;
     let runtime = fullMovieInfo.Runtime;
     let genre = fullMovieInfo.Genre;
     let info = document.createElement("p");
     info.innerHTML = `${rating} | ${runtime} | ${genre}`;
+    info.classList = "text-center";
     workspace.append(info);
     
     let plot = document.createElement("p");

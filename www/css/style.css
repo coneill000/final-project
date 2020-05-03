@@ -87,3 +87,11 @@ hr {
 .input-group {
     margin-bottom: 1.5rem;
 }
+
+.favorite-icon {
+    margin: 0.5rem;
+}
+
+.img-poster {
+    margin: 0.5rem 0 0.5rem 0;
+}
