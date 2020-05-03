@@ -29,6 +29,9 @@ let dispNewAccount = function(){
 }
 
 function createNewAccount(){
+    let error = document.getElementById("error");
+    error.innerHTML = "";
+    let hasError = false;
     console.log("entering createNewAccount");
     let newUser = {
         username: document.getElementById("username").value,
@@ -36,26 +39,41 @@ function createNewAccount(){
     };
     console.log(newUser);
     
+    if(newUser.username == "" || newUser.password== "") {
+        hasError = true;
+        let message = document.createElement("p");
+        message.appendChild(document.createTextNode("Please don't leave any of the fields empty."));
+        error.append(message);
+    }
+    
     let users = [];
     if(localStorage.getItem("users")){
         console.log("There were previously registered users");
         users = JSON.parse(window.localStorage.getItem("users"));
         console.log("Here are the previous users: ");
         console.log(users);
+        for(let i = 0; i<users.length;i++) {
+            if(users[i].username == newUser.username) {
+                let message = document.createElement("p");
+                message.appendChild(document.createTextNode("This username already exists"));
+                error.append(message);
+                hasError = true;
+            }
+        }
     } else {
         console.log("There were no previously registered users.");
     }
     
-    //check to make sure no duplicate usernames
-    
-    users.push(newUser);
-    console.log(users);
-    window.localStorage.setItem("users", JSON.stringify(users));
-    let thing = window.localStorage.getItem("users");
-    console.log(JSON.parse(thing));
-    let createSuccess = true;
-    if(createSuccess){
-        dispLogin("your account creation was successful");
+    if(!hasError) {
+        users.push(newUser);
+        console.log(users);
+        window.localStorage.setItem("users", JSON.stringify(users));
+        let thing = window.localStorage.getItem("users");
+        console.log(JSON.parse(thing));
+        let createSuccess = true;
+        if(createSuccess){
+            dispLogin("your account creation was successful");
+        }
     }
 }
 
