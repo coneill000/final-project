@@ -107,9 +107,10 @@ function displaySearchInfo(movieInfo, userId, pageNum, title, year, type) {
             briefInfo.onclick = function() {requestMovieInfo(movie.getAttribute("id"), userId);};
             briefInfo.innerHTML = `${movieInfo.Search[i].Title} (${movieInfo.Search[i].Year})`;
             
-            let favoriteIcon = document.createElement("p");
+            let favoriteIcon = document.createElement("img");
             favoriteIcon.classList.add("favorite-icon");
-            favoriteIcon.appendChild(document.createTextNode("Favorites"));
+            favoriteIcon.src = "img/heart_outline.png";
+            //favoriteIcon.appendChild(document.createTextNode("Favorites"));
             favoriteIcon.onclick = function() {changeFavorites(movie.getAttribute("id"), userId);};
             
             if(users[userId].favorites && (users[userId].favorites.length != 0)){
@@ -118,6 +119,7 @@ function displaySearchInfo(movieInfo, userId, pageNum, title, year, type) {
                 for (let i=0; i<favorites.length; i++){
                     if(favorites[i] == movie.getAttribute("id")) {
                         favoriteIcon.classList.add("favorited");
+                        favoriteIcon.src = "img/heart_filled.png";
                     }
                 }
             }

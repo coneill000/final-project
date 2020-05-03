@@ -47,10 +47,12 @@ function changeFavorites(id, userId) {
         console.log("the item was already favorited");
         favorites.splice(match, 1);
         favoriteIcon.classList.remove("favorited");
+        favoriteIcon.src = "img/heart_outline.png";
     } else {
         console.log("The item hasn't been favorited");
         favorites.push(id);
         favoriteIcon.classList.add("favorited");
+        favoriteIcon.src = "img/heart_filled.png";
     }
     
     users[userId].favorites = favorites;
@@ -68,9 +70,11 @@ function dispMovieInfo(fullMovieInfo, userId) {
     let users = JSON.parse(window.localStorage.getItem("users"));
     let favorites = [];
     
-    let favoriteIcon = document.createElement("p");
+    let favoriteIcon = document.createElement("img");
+    favoriteIcon.src = "img/heart_outline.png";
     favoriteIcon.classList.add("favorite-icon");
-    favoriteIcon.appendChild(document.createTextNode("Favorites"));
+    
+    //favoriteIcon.appendChild(document.createTextNode("Favorites"));
     favoriteIcon.onclick = function() {changeFavorites(fullMovieInfo.imdbID, userId);};
 
     if(users[userId].favorites && (users[userId].favorites.length != 0)){
@@ -79,6 +83,7 @@ function dispMovieInfo(fullMovieInfo, userId) {
         for (let i=0; i<favorites.length; i++){
             if(favorites[i] == fullMovieInfo.imdbID) {
                 favoriteIcon.classList.add("favorited");
+                favoriteIcon.src = "img/heart_filled.png";
             }
         }
     }

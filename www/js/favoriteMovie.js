@@ -46,9 +46,10 @@ function dispFavorites(userId) {
                     briefInfo.innerHTML = `${movieInfo.Title} (${movieInfo.Year})`;
                     briefInfo.onclick = function() {requestMovieInfo(movieId, userId);};
 
-                    let favoriteIcon = document.createElement("p");
+                    let favoriteIcon = document.createElement("img");
                     favoriteIcon.classList.add("favorite-icon");
-                    favoriteIcon.appendChild(document.createTextNode("Favorites"));
+                    favoriteIcon.src = "img/heart_outline.png";
+                    //favoriteIcon.appendChild(document.createTextNode("Favorites"));
                     favoriteIcon.onclick = function() {
                         changeFavorites(movie.getAttribute("id"), userId);
                         loadFavorites(userId);
@@ -60,6 +61,7 @@ function dispFavorites(userId) {
                         for (let i=0; i<favorites.length; i++){
                             if(favorites[i] == movie.getAttribute("id")) {
                                 favoriteIcon.classList.add("favorited");
+                                favoriteIcon.src = "img/heart_filled.png";
                             }
                         }
                     }
