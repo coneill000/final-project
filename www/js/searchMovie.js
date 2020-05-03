@@ -1,8 +1,13 @@
 let loadSearch = function (userId) {
     console.log("Entering the loadSearch function");
     let workspace = document.getElementById("content");
+    let error = document.getElementById("error");
+    let top = document.getElementById("top");
     workspace.innerHTML = "";
-    document.getElementById("error").innerHTML = "";
+    error.innerHTML = "";
+    top.innerHTML = "";
+    
+    top.classList.remove('top-styling');
     
     let searchButton = document.getElementById("search");
     let favoriteButton = document.getElementById("favorite");
@@ -99,17 +104,33 @@ function getSearchInfo(userId, pageNum, title, year, type) {
 function displaySearchInfo(movieInfo, userId, pageNum, title, year, type) {
     console.log("Entering the displaySearchInfo function");
     let workspace = document.getElementById("content");
+    let error = document.getElementById("error");
+    let top = document.getElementById("top");
     workspace.innerHTML = "";
+    error.innerHTML = "";
+    top.innerHTML = "";
+    
     let listGroup = document.createElement("div");
     listGroup.classList.add("list-group");
     let users = JSON.parse(window.localStorage.getItem("users"));
     
+    top.classList = "top-styling";
+    let h1 = document.createElement("h1");
+    h1.appendChild(document.createTextNode(`Search Results`));
+    h1.classList = "text-center top-message";
+    top.append(h1);
+    
     if(movieInfo.Response == "False") {
         let error = document.getElementById("error");
-        error.innerHTML = "<p>No movies found, please search again</p>"
+        let p = document.createElement("p");
+        p.classList = "text-center error-message";
+        p.appendChild(document.createTextNode("No movies found, please search again."));
+        error.append(p);
+        
         let searchAgain = document.createElement("button");
         searchAgain.setAttribute("id", "search-again");
         searchAgain.appendChild(document.createTextNode("Search Again"));
+        searchAgain.classList = "btn btn-primary btn-block";
         workspace.append(searchAgain);
         document.getElementById("search-again").onclick = loadSearch;
     } else {
