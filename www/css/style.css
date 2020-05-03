@@ -38,3 +38,7 @@
 .favorited {
     color: lightcoral;
 }
+
+#content {
+    margin-bottom: 5rem;
+}
