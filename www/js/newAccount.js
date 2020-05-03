@@ -26,6 +26,10 @@ let dispNewAccount = function(){
     button.appendChild(text);
     button.addEventListener("click", createNewAccount);
     workspace.append(button);
+    let backButton = document.createElement("button");
+    backButton.appendChild(document.createTextNode("Go back to login"));
+    backButton.onclick = function () {dispLogin(false);};
+    workspace.append(backButton);
 }
 
 function createNewAccount(){
