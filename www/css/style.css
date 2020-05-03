@@ -39,6 +39,32 @@
     color: lightcoral;
 }
 
+.error-message {
+    padding: 1rem;
+    background-color: lightgray;
+}
+
 #content {
     margin-bottom: 5rem;
+    padding: 2rem;
+}
+
+.btn-primary {
+    background-color: #515076;
+    border-color: #515076;
+}
+
+hr {
+    border-top: 1px solid rgba(57,53,79,1);
+    border-width: medium;
+    margin: 1.5rem 0 1.5rem 0;
+}
+
+#top {
+    padding: 2rem;
+    background-color: #515076;
+}
+
+.top-message {
+    color: white;
 }
