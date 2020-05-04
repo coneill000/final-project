@@ -8,27 +8,43 @@ let dispNewAccount = function(){
     error.innerHTML = "";
     bottom.innerHTML = "";
     
+    let form = document.createElement("form");
+    let formGroup1 = document.createElement("div");
+    formGroup1.classList.add("form-group");
+    let formGroup2 = document.createElement("div");
+    formGroup2.classList.add("form-group");
+    
     //username input
     let user = document.createElement("input");
     user.setAttribute("type", "text");
     user.setAttribute("placeholder", "username");
-    user.setAttribute("id", "username");
-    workspace.append(user);
+    user.setAttribute("id", "new-username");
+    user.classList.add("form-control");
+    formGroup1.append(user);
     //password input
     let pass = document.createElement("input");
     pass.setAttribute("type", "password");
     pass.setAttribute("placeholder", "password");
-    pass.setAttribute("id", "password");
-    workspace.append(pass);
+    pass.setAttribute("id", "new-password");
+    pass.classList.add("form-control");
+    formGroup2.append(pass);
+    
+    form.append(formGroup1);
+    form.append(formGroup2);
     //button
     let button = document.createElement("button");
-    let text = document.createTextNode("Create New Account");
-    button.appendChild(text);
+    button.appendChild(document.createTextNode("Create New Account"));
     button.addEventListener("click", createNewAccount);
-    workspace.append(button);
+    button.classList = "btn btn-primary btn-block";
+    form.append(button);
+    workspace.append(form);
+    
+    let hr = document.createElement("hr");
     let backButton = document.createElement("button");
     backButton.appendChild(document.createTextNode("Go back to login"));
+    backButton.classList = "btn btn-primary btn-block";
     backButton.onclick = function () {dispLogin(false);};
+    workspace.append(hr);
     workspace.append(backButton);
 }
 
@@ -38,8 +54,8 @@ function createNewAccount(){
     let hasError = false;
     console.log("entering createNewAccount");
     let newUser = {
-        username: document.getElementById("username").value,
-        password: document.getElementById("password").value,
+        username: document.getElementById("new-username").value,
+        password: document.getElementById("new-password").value,
     };
     console.log(newUser);
     
@@ -84,43 +100,69 @@ function createNewAccount(){
 function dispLogin(message = false){
     console.log("entering display login");
     //sets up workspace
+    let top = document.getElementById("top");
     let workspace = document.getElementById("content");
     let error = document.getElementById("error");
     let bottom = document.getElementById("bottom");
     workspace.innerHTML = "";
     error.innerHTML = "";
     bottom.innerHTML = "";
+    top.innerHTML = "";
+    
+    top.classList = "top-styling";
+    let h1 = document.createElement("h1");
+    h1.appendChild(document.createTextNode("MyMovies"));
+    h1.classList = "text-center top-message";
+    top.append(h1);
+    
+    let form = document.createElement("form");
+    let formGroup1 = document.createElement("div");
+    formGroup1.classList.add("form-group");
+    let formGroup2 = document.createElement("div");
+    formGroup2.classList.add("form-group");
     
     //header
     if(message){
-        let h1 = document.createElement("h1");
-        h1.appendChild(document.createTextNode(message));
-        error.append(h1);
+        let p = document.createElement("p");
+        p.classList = "text-center error-message";
+        p.appendChild(document.createTextNode(message));
+        error.append(p);
     }
     
-    //username input
+     //username input
     let user = document.createElement("input");
     user.setAttribute("type", "text");
     user.setAttribute("placeholder", "username");
     user.setAttribute("id", "username");
-    workspace.append(user);
+    user.classList.add("form-control");
+    formGroup1.append(user);
     //password input
     let pass = document.createElement("input");
     pass.setAttribute("type", "password");
     pass.setAttribute("placeholder", "password");
     pass.setAttribute("id", "password");
-    workspace.append(pass);
+    pass.classList.add("form-control");
+    formGroup2.append(pass);
+    
+    form.append(formGroup1);
+    form.append(formGroup2);
+    
     //button
     let button = document.createElement("button");
-    let text = document.createTextNode("Enter");
     button.setAttribute("id", "enter");
-    button.appendChild(text);
-    workspace.append(button);
+    button.appendChild(document.createTextNode("Enter"));
+    button.classList = "btn btn-primary btn-block";
+    form.append(button);
+    workspace.append(form);
+    
+    let hr = document.createElement("hr");
+    workspace.append(hr);
+    
     //another button
     let button2 = document.createElement("button");
-    let text2 = document.createTextNode("Create New Account");
-    button2.appendChild(text2);
+    button2.appendChild(document.createTextNode("Create New Account"));
     button2.setAttribute("id", "new-account");
+    button2.classList = "btn btn-primary btn-block";
     workspace.append(button2);
     
     document.getElementById("enter").onclick = checkLogin;
@@ -131,7 +173,6 @@ function checkLogin() {
     console.log("Entering checkLogin");
     let workspace = document.getElementById("error");
     workspace.innerHTML = "";
-    let h2 = document.createElement("h1");
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
     let users = [];
@@ -158,34 +199,41 @@ function checkLogin() {
     
     let correct_login = username_found && password_correct;
     if(!correct_login) {
-        h2.appendChild(document.createTextNode("Username or password is incorrect."));
-        workspace.append(h2);
+        dispLogin("Username or password is incorrect!");;
     } else {
         initializeApp(userId);
     }
 }
 
 function initializeApp(userId) {
+    let top = document.getElementById("top");
+    let content = document.getElementById("content");
+    let error = document.getElementById("error");
     let workspace = document.getElementById("bottom");
-    document.getElementById("content").innerHTML = "";
+    workspace.innerHTML = "";
+    error.innerHTML = "";
+    content.innerHTML = "";
+    top.innerHTML = "";
+    
+    top.classList.remove("top-styling");
     
     let header = document.createElement("div");
-    header.classList.add("navbar");
+    header.classList = "navbar btn-group";
     header.setAttribute("id", "header");
     
     let searchButton = document.createElement("button");
     searchButton.setAttribute("id", "search");
-    searchButton.classList.add("tablinks");
+    searchButton.classList = "navlinks btn";
     searchButton.appendChild(document.createTextNode("Search"));
                             
     let favoriteButton = document.createElement("button");
     favoriteButton.setAttribute("id", "favorite");
-    favoriteButton.classList.add("tablinks");
+    favoriteButton.classList = "navlinks btn";
     favoriteButton.appendChild(document.createTextNode("Favorites")); 
                                
     let profileButton = document.createElement("button");
     profileButton.setAttribute("id", "profile");
-    profileButton.classList.add("tablinks");
+    profileButton.classList = "navlinks btn";
     profileButton.appendChild(document.createTextNode("Profile"));
                               
     header.appendChild(searchButton);

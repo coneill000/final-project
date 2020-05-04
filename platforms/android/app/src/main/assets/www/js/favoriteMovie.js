@@ -23,11 +23,20 @@ let loadFavorites = function(userId) {
 function dispFavorites(userId) {
     console.log("Entering the dispFavorite function");
     let workspace = document.getElementById("content");
+    let error = document.getElementById("error");
+    let top = document.getElementById("top");
     workspace.innerHTML = "";
-    let error = document.getElementById("content");
+    error.innerHTML = "";
+    top.innerHTML = "";
     let listGroup = document.createElement("div");
     listGroup.classList.add("list-group");
     let users = JSON.parse(window.localStorage.getItem("users"));
+    
+    top.classList = "top-styling";
+    let h1 = document.createElement("h1");
+    h1.appendChild(document.createTextNode(`${users[userId].username}'s Favorites`));
+    h1.classList = "text-center top-message";
+    top.append(h1);
     
     if(users[userId].favorites && (users[userId].favorites.length != 0)) {
         let favorites = users[userId].favorites;
@@ -71,7 +80,7 @@ function dispFavorites(userId) {
                 }
             };
 
-            let url = `http://www.omdbapi.com/?i=${movieId}&apikey=3f5099b1`;
+            let url = `https://www.omdbapi.com/?i=${movieId}&apikey=3f5099b1`;
 
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
