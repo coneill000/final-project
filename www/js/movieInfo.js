@@ -1,8 +1,13 @@
 //Uses API to request detailed information about particular movie
 function requestMovieInfo(movieId, userId) {
-    //Sets up document variable
+    //Sets up document variables
     let workspace = document.getElementById("content");
+    let error = document.getElementById("error");
+    let top = document.getElementById("top");
     workspace.innerHTML = "";
+    error.innerHTML = "";
+    top.innerHTML = "";
+    top.classList.remove('top-styling');
     
     //Sets up request, if successful, will pass full information to display function
     let xmlhttp = new XMLHttpRequest();
