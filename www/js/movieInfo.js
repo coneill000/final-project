@@ -22,7 +22,7 @@ function requestMovieInfo(movieId, userId) {
 
 function changeFavorites(id, userId) {
     console.log(`Entering changeFavorites with id ${id}`);
-    let favoriteIcon = document.getElementById(id).getElementsByClassName("favorite-icon")[0];
+    let favoriteIcon = document.getElementsByClassName("favorite-icon")[0];
     let favorites = [];
     let previouslyFavorited = false;
     let match = 0;
@@ -66,16 +66,18 @@ function dispMovieInfo(fullMovieInfo, userId) {
     console.log("Entering dispMovieInfo");
     let workspace = document.getElementById("content");
     let title = document.createElement("h1");
+    title.classList = "text-center";
     title.innerHTML = `${fullMovieInfo.Title} (${fullMovieInfo.Year})`;
     let users = JSON.parse(window.localStorage.getItem("users"));
     let favorites = [];
     
+    let favoriteDiv = document.createElement("div");
+    favoriteDiv.classList = "d-flex justify-content-center";
     let favoriteIcon = document.createElement("img");
     favoriteIcon.src = "img/heart_outline.png";
     favoriteIcon.classList.add("favorite-icon");
     
     //favoriteIcon.appendChild(document.createTextNode("Favorites"));
-    favoriteIcon.onclick = function() {changeFavorites(fullMovieInfo.imdbID, userId);};
 
     if(users[userId].favorites && (users[userId].favorites.length != 0)){
         console.log("There were already favorited items: ");
@@ -88,17 +90,26 @@ function dispMovieInfo(fullMovieInfo, userId) {
         }
     }
     
+    favoriteDiv.onclick = function() {changeFavorites(fullMovieInfo.imdbID, userId);};
+    
+    let imgDiv = document.createElement("div");
+    imgDiv.classList = "d-flex justify-content-center";
     let img = document.createElement("img");
     img.src = fullMovieInfo.Poster;
+    img.classList = "img-poster";
+    imgDiv.append(img);
+    
     workspace.append(title);
-    workspace.append(favoriteIcon);
-    workspace.append(img);
+    favoriteDiv.append(favoriteIcon);
+    workspace.append(favoriteDiv);
+    workspace.append(imgDiv);
     
     let rating = fullMovieInfo.Rated;
     let runtime = fullMovieInfo.Runtime;
     let genre = fullMovieInfo.Genre;
     let info = document.createElement("p");
     info.innerHTML = `${rating} | ${runtime} | ${genre}`;
+    info.classList = "text-center";
     workspace.append(info);
     
     let plot = document.createElement("p");
