@@ -1,6 +1,9 @@
+//This file contains functions that deal account creation and logging in
+
+//displays the create account page
 let dispNewAccount = function(){
-    console.log("entering display new account");
-    //sets up workspace
+    
+    //sets up main document variables and clears the innerHTML
     let workspace = document.getElementById("content");
     let error = document.getElementById("error");
     let bottom = document.getElementById("bottom");
@@ -8,6 +11,7 @@ let dispNewAccount = function(){
     error.innerHTML = "";
     bottom.innerHTML = "";
     
+    //general form tag and form group divs
     let form = document.createElement("form");
     let formGroup1 = document.createElement("div");
     formGroup1.classList.add("form-group");
@@ -21,6 +25,7 @@ let dispNewAccount = function(){
     user.setAttribute("id", "new-username");
     user.classList.add("form-control");
     formGroup1.append(user);
+    
     //password input
     let pass = document.createElement("input");
     pass.setAttribute("type", "password");
@@ -29,9 +34,11 @@ let dispNewAccount = function(){
     pass.classList.add("form-control");
     formGroup2.append(pass);
     
+    //Append username and password form groups to main form
     form.append(formGroup1);
     form.append(formGroup2);
-    //button
+    
+    //Account creation button
     let button = document.createElement("button");
     button.appendChild(document.createTextNode("Create New Account"));
     button.addEventListener("click", createNewAccount);
@@ -39,6 +46,7 @@ let dispNewAccount = function(){
     form.append(button);
     workspace.append(form);
     
+    //Back to login button
     let hr = document.createElement("hr");
     let backButton = document.createElement("button");
     backButton.appendChild(document.createTextNode("Go back to login"));
@@ -48,17 +56,21 @@ let dispNewAccount = function(){
     workspace.append(backButton);
 }
 
+//Checks the values in account creation form and adds account to local storage if there are no errors
 function createNewAccount(){
+    //Sets up main variables 
     let error = document.getElementById("error");
     error.innerHTML = "";
     let hasError = false;
-    console.log("entering createNewAccount");
+    let users = [];
+    
+    //Creates new user object based on entered information
     let newUser = {
         username: document.getElementById("new-username").value,
         password: document.getElementById("new-password").value,
     };
-    console.log(newUser);
-    
+
+    //Checks to see if form as empty values
     if(newUser.username == "" || newUser.password== "") {
         hasError = true;
         let message = document.createElement("p");
@@ -66,12 +78,9 @@ function createNewAccount(){
         error.append(message);
     }
     
-    let users = [];
+    //Checks local storage to see if there were previously registered users
+    //If there were then checks to make sure that username is not taken
     if(localStorage.getItem("users")){
-        console.log("There were previously registered users");
-        users = JSON.parse(window.localStorage.getItem("users"));
-        console.log("Here are the previous users: ");
-        console.log(users);
         for(let i = 0; i<users.length;i++) {
             if(users[i].username == newUser.username) {
                 let message = document.createElement("p");
@@ -80,26 +89,19 @@ function createNewAccount(){
                 hasError = true;
             }
         }
-    } else {
-        console.log("There were no previously registered users.");
     }
     
+    //If there were no errors found during account creation process, will add new account and return user to login
     if(!hasError) {
         users.push(newUser);
-        console.log(users);
         window.localStorage.setItem("users", JSON.stringify(users));
-        let thing = window.localStorage.getItem("users");
-        console.log(JSON.parse(thing));
-        let createSuccess = true;
-        if(createSuccess){
-            dispLogin("your account creation was successful");
-        }
+        dispLogin("your account creation was successful");
     }
 }
 
+//Displays login page with optional message
 function dispLogin(message = false){
-    console.log("entering display login");
-    //sets up workspace
+    //sets up document variables and ensures innerHTML is empty
     let top = document.getElementById("top");
     let workspace = document.getElementById("content");
     let error = document.getElementById("error");
@@ -109,19 +111,21 @@ function dispLogin(message = false){
     bottom.innerHTML = "";
     top.innerHTML = "";
     
+    //creates title section to put name of app
     top.classList = "top-styling";
     let h1 = document.createElement("h1");
     h1.appendChild(document.createTextNode("MyMovies"));
     h1.classList = "text-center top-message";
     top.append(h1);
     
+    //creates form and form-group divs
     let form = document.createElement("form");
     let formGroup1 = document.createElement("div");
     formGroup1.classList.add("form-group");
     let formGroup2 = document.createElement("div");
     formGroup2.classList.add("form-group");
     
-    //header
+    //if there is a message, displays message
     if(message){
         let p = document.createElement("p");
         p.classList = "text-center error-message";
@@ -129,13 +133,14 @@ function dispLogin(message = false){
         error.append(p);
     }
     
-     //username input
+    //username input
     let user = document.createElement("input");
     user.setAttribute("type", "text");
     user.setAttribute("placeholder", "username");
     user.setAttribute("id", "username");
     user.classList.add("form-control");
     formGroup1.append(user);
+    
     //password input
     let pass = document.createElement("input");
     pass.setAttribute("type", "password");
@@ -144,10 +149,11 @@ function dispLogin(message = false){
     pass.classList.add("form-control");
     formGroup2.append(pass);
     
+    //appends username and password form groups to main form
     form.append(formGroup1);
     form.append(formGroup2);
     
-    //button
+    //Sign-in button
     let button = document.createElement("button");
     button.setAttribute("id", "enter");
     button.appendChild(document.createTextNode("Enter"));
@@ -155,48 +161,55 @@ function dispLogin(message = false){
     form.append(button);
     workspace.append(form);
     
+    //Account creation button
     let hr = document.createElement("hr");
     workspace.append(hr);
-    
-    //another button
     let button2 = document.createElement("button");
     button2.appendChild(document.createTextNode("Create New Account"));
     button2.setAttribute("id", "new-account");
     button2.classList = "btn btn-primary btn-block";
     workspace.append(button2);
     
+    //Sets click events for the login and account creation buttons
     document.getElementById("enter").onclick = checkLogin;
     document.getElementById("new-account").onclick = dispNewAccount;
 }
 
+//Checks that the login information matches existing users
 function checkLogin() {
-    console.log("Entering checkLogin");
+    //Sets up document variables
     let workspace = document.getElementById("error");
     workspace.innerHTML = "";
+    
+    //gets username and password from input
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
+    
+    //Sets up important variables
     let users = [];
     let username_found = false;
     let password_correct = false;
     let userId = 0;
+    
+    //Checks to see if there were previously registered users
+    //If there were, then the "users" array will be set to previously registered users (if not, then will have empty array)
+    //Will also check to see if the username and password is correct
     if(localStorage.getItem("users")){
-        console.log("There were previously registered users");
         users = JSON.parse(window.localStorage.getItem("users"));
         for (let i = 0; i < users.length; i++) {
             if (users[i].username == user) {
                 username_found = true;
-                console.log("username is correct");
                 if (users[i].password == pass) {
-                    console.log("password is also correct, login is successful");
                     password_correct = true;
                     userId = i;
                 }
             }
         }
-    } else {
-        console.log("There were no previously registered users.");
     }
     
+    //Allows for correct login only if a username is found and the corresponding password matches
+    //If incorrect, then will redisplay login with error message
+    //If correct, will display main app
     let correct_login = username_found && password_correct;
     if(!correct_login) {
         dispLogin("Username or password is incorrect!");;
@@ -205,7 +218,10 @@ function checkLogin() {
     }
 }
 
+//Displays main app, including bottom navigation
+//Set to initilize to the search tab
 function initializeApp(userId) {
+    //Sets up document variables and ensures innerHTML is empty
     let top = document.getElementById("top");
     let content = document.getElementById("content");
     let error = document.getElementById("error");
@@ -214,34 +230,40 @@ function initializeApp(userId) {
     error.innerHTML = "";
     content.innerHTML = "";
     top.innerHTML = "";
-    
     top.classList.remove("top-styling");
     
+    //Creates bottom navigation
     let header = document.createElement("div");
     header.classList = "navbar btn-group";
     header.setAttribute("id", "header");
     
+    //creates tab that will go to search function
     let searchButton = document.createElement("button");
     searchButton.setAttribute("id", "search");
     searchButton.classList = "navlinks btn";
     searchButton.appendChild(document.createTextNode("Search"));
-                            
+
+    //creates tab that will go to favorite's page
     let favoriteButton = document.createElement("button");
     favoriteButton.setAttribute("id", "favorite");
     favoriteButton.classList = "navlinks btn";
     favoriteButton.appendChild(document.createTextNode("Favorites")); 
-                               
+    
+    //Creates tab that will go to profile function
     let profileButton = document.createElement("button");
     profileButton.setAttribute("id", "profile");
     profileButton.classList = "navlinks btn";
     profileButton.appendChild(document.createTextNode("Profile"));
-                              
+    
+    //Appends tabs to navigation
     header.appendChild(searchButton);
     header.appendChild(favoriteButton);
     header.appendChild(profileButton);
     
+    //Append navigation to main content
     workspace.append(header);
     
+    //Sets up onclick listeners for each tab, initializes to search function
     document.getElementById("search").onclick = function() {loadSearch(userId);};
     document.getElementById("favorite").onclick = function() {loadFavorites(userId);};
     document.getElementById("profile").onclick = function() {loadProfile(userId);};

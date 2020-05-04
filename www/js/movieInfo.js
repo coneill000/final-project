@@ -1,10 +1,15 @@
+//Uses API to request detailed information about particular movie
 function requestMovieInfo(movieId, userId) {
-    console.log("Entering dispMovieInfo");
-    console.log(movieId);
-    
+    //Sets up document variables
     let workspace = document.getElementById("content");
+    let error = document.getElementById("error");
+    let top = document.getElementById("top");
     workspace.innerHTML = "";
+    error.innerHTML = "";
+    top.innerHTML = "";
+    top.classList.remove('top-styling');
     
+    //Sets up request, if successful, will pass full information to display function
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -14,24 +19,23 @@ function requestMovieInfo(movieId, userId) {
         }
     };
     
+    //Inputs movie id into url
     let url = `https://www.omdbapi.com/?i=${movieId}&apikey=3f5099b1`;
-    
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
 
+//Will "unfavorite" a title that is already favorited and will "favorite" a title that isn't favorited
 function changeFavorites(id, userId) {
-    console.log(`Entering changeFavorites with id ${id}`);
+    //Sets up main variables
     let favoriteIcon = document.getElementsByClassName("favorite-icon")[0];
     let favorites = [];
     let previouslyFavorited = false;
     let match = 0;
     let users = JSON.parse(window.localStorage.getItem("users"));
-    console.log(users);
     
+    //Checks if movie was already favorited
     if(users[userId].favorites && (users[userId].favorites.length != 0)){
-        console.log("There were already favorited items: ");
-        console.log(users[userId].favorites);
         favorites = users[userId].favorites;
         for (let i=0; i<favorites.length; i++){
             if(favorites[i] == id) {
@@ -39,31 +43,28 @@ function changeFavorites(id, userId) {
                 match = i;
             }
         }
-    } else {
-        console.log("There were no previously favorited movies");
-    }
+    } 
     
+    //If the movie was previously favorited, then will remove from favorites
+    //If not then will add to favorites
     if(previouslyFavorited) {
-        console.log("the item was already favorited");
         favorites.splice(match, 1);
         favoriteIcon.classList.remove("favorited");
         favoriteIcon.src = "img/heart_outline.png";
     } else {
-        console.log("The item hasn't been favorited");
         favorites.push(id);
         favoriteIcon.classList.add("favorited");
         favoriteIcon.src = "img/heart_filled.png";
     }
     
+    //updates user favorites
     users[userId].favorites = favorites;
-    console.log(`favorites after change ${favorites}`);
     window.localStorage.setItem("users", JSON.stringify(users));
-    let thing = window.localStorage.getItem("users");
-    console.log(JSON.parse(thing));
 }
 
+//Displays full movie information including title, year, poster, genre, runtime, rating, etc. 
 function dispMovieInfo(fullMovieInfo, userId) {
-    console.log("Entering dispMovieInfo");
+    //Sets up document variables
     let workspace = document.getElementById("content");
     let title = document.createElement("h1");
     title.classList = "text-center";
@@ -71,16 +72,15 @@ function dispMovieInfo(fullMovieInfo, userId) {
     let users = JSON.parse(window.localStorage.getItem("users"));
     let favorites = [];
     
+    //Sets up favorite icon
     let favoriteDiv = document.createElement("div");
     favoriteDiv.classList = "d-flex justify-content-center";
     let favoriteIcon = document.createElement("img");
     favoriteIcon.src = "img/heart_outline.png";
     favoriteIcon.classList.add("favorite-icon");
     
-    //favoriteIcon.appendChild(document.createTextNode("Favorites"));
-
+    //Will set favorite icon to full heart if movie was previously favorited
     if(users[userId].favorites && (users[userId].favorites.length != 0)){
-        console.log("There were already favorited items: ");
         favorites = users[userId].favorites;
         for (let i=0; i<favorites.length; i++){
             if(favorites[i] == fullMovieInfo.imdbID) {
@@ -90,8 +90,10 @@ function dispMovieInfo(fullMovieInfo, userId) {
         }
     }
     
+    //Sets onclick event for favorite icon
     favoriteDiv.onclick = function() {changeFavorites(fullMovieInfo.imdbID, userId);};
     
+    //Displays poster image
     let imgDiv = document.createElement("div");
     imgDiv.classList = "d-flex justify-content-center";
     let img = document.createElement("img");
@@ -99,11 +101,13 @@ function dispMovieInfo(fullMovieInfo, userId) {
     img.classList = "img-poster";
     imgDiv.append(img);
     
+    //Appends title, favoriteIcon, and poster to content
     workspace.append(title);
     favoriteDiv.append(favoriteIcon);
     workspace.append(favoriteDiv);
     workspace.append(imgDiv);
     
+    //Displays rating, runtime, and gere information
     let rating = fullMovieInfo.Rated;
     let runtime = fullMovieInfo.Runtime;
     let genre = fullMovieInfo.Genre;
@@ -112,13 +116,14 @@ function dispMovieInfo(fullMovieInfo, userId) {
     info.classList = "text-center";
     workspace.append(info);
     
+    //Displays plot
     let plot = document.createElement("p");
     plot.innerHTML = `${fullMovieInfo.Plot}`;
     workspace.append(plot);
-    
     let hr = document.createElement("hr");
     workspace.append(hr);
     
+    //Displays important people and awards
     let director = document.createElement("p");
     director.innerHTML = `Directed by: ${fullMovieInfo.Director}`;
     let writer = document.createElement("p");
