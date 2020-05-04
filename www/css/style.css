@@ -1,10 +1,23 @@
+/*Increase width of horizonal rule and change color*/
+hr {
+    border-top: 1px solid rgba(57,53,79,1);
+    border-width: medium;
+    margin: 1.5rem 0 1.5rem 0;
+}
+
+/*Add extra margin on the bottom so that navigation doesn't cover content*/
+#content {
+    margin-bottom: 5rem;
+    padding: 2rem;
+}
+
 /* Place the navbar at the bottom of the page, and make it stick */
 .navbar {
-  background-color: #aea9cc	;
-  overflow: hidden;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+    background-color: #aea9cc;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     padding: 0;
 }
 
@@ -21,25 +34,19 @@
     cursor: pointer;
 }
 
-
+/*Set hover color for navbar*/
 .navbar button:hover {
-  background-color: #515076;
+    background-color: #515076;
     color: white;
-    
 }
 
+/*Set color for the "active" tab*/
 .active {
-  background-color: #515076;
+    background-color: #515076;
     color: white;
 }
 
-.navcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-
+/*Ensure buttons are evenly spaced*/
 .navlinks {
     width: 25%;
     float: left;
@@ -47,51 +54,43 @@
 
 /* Hide the link that should open and close the navbar on small screens */
 .navbar .icon {
-  display: none;
+    display: none;
 }
 
-.favorited {
-    color: lightcoral;
-}
-
+/*Create light gray box to display error messages*/
 .error-message {
     padding: 1rem;
     background-color: lightgray;
 }
 
-#content {
-    margin-bottom: 5rem;
-    padding: 2rem;
-}
-
+/*Change color of primary buttons from bootstrap default*/
 .btn-primary {
     background-color: #515076;
     border-color: #515076;
 }
 
-hr {
-    border-top: 1px solid rgba(57,53,79,1);
-    border-width: medium;
-    margin: 1.5rem 0 1.5rem 0;
-}
-
+/*Add background color to top section to display titles*/
 .top-styling {
     padding: 2rem;
     background-color: #515076;
 }
 
+/*Set text color of top section to white*/
 .top-message {
     color: white;
 }
 
+/*Add space between the elements of the input group*/
 .input-group {
     margin-bottom: 1.5rem;
 }
 
+/*Add space around the favorite icon*/
 .favorite-icon {
     margin: 0.5rem;
 }
 
+/*Add space around the image poster on the top and bottom*/
 .img-poster {
     margin: 0.5rem 0 0.5rem 0;
 }
